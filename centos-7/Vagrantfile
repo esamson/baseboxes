@@ -14,7 +14,6 @@ Vagrant.configure(2) do |config|
   # Get latest system updates.
   #
   # deltarpm not is included in minimal install so we install that first.
-  # Shutdown afterwards.
   config.vm.provision "shell", inline: <<-SHELL
     echo Provisioning centos-7 box
     echo Installing deltarpm
@@ -22,9 +21,7 @@ Vagrant.configure(2) do |config|
     echo Getting system updates
     yum update -y
     echo System updated
-    echo SHUTTING DOWN
-    echo Run "vagrant up" again to update VirtualBox Guest Additions
-    shutdown -h now
+    echo Restart the VM to update VirtualBox Guest Additions
   SHELL
 
   # Use vagrant-vbguest plugin to keep VirtualBox Guest Additions up to date.

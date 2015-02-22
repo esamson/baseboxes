@@ -5,6 +5,8 @@
 
 sudo yum clean all
 
+echo Zeroing out free space
 sudo dd if=/dev/zero of=/ZEROES bs=1M
 sudo rm /ZEROES
+echo Zeroing done
 
