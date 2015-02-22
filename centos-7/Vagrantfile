@@ -1,0 +1,33 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# CentOS 7 base box
+Vagrant.configure(2) do |config|
+
+  # Based on puppetlabs/centos-7.0-64-puppet
+  config.vm.box = "puppetlabs/centos-7.0-64-puppet"
+
+  config.vm.provider "virtualbox" do |vbox|
+      vbox.name = "centos-7"
+  end
+
+  # Get latest system updates.
+  #
+  # deltarpm not is included in minimal install so we install that first.
+  # Shutdown afterwards.
+  config.vm.provision "shell", inline: <<-SHELL
+    echo Provisioning centos-7 box
+    echo Installing deltarpm
+    yum install -y deltarpm
+    echo Getting system updates
+    yum update -y
+    echo System updated
+    echo SHUTTING DOWN
+    echo Run "vagrant up" again to update VirtualBox Guest Additions
+    shutdown -h now
+  SHELL
+
+  # Use vagrant-vbguest plugin to keep VirtualBox Guest Additions up to date.
+  # See: https://github.com/dotless-de/vagrant-vbguest
+  config.vbguest.auto_update = true
+end
