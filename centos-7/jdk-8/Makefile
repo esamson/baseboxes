@@ -1,3 +1,5 @@
+.PRECIOUS: .deps/jdk-8.tar.gz
+
 all: clean deps provision package.box
 	@echo jdk-8 box built
 
