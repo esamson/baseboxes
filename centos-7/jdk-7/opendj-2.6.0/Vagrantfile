@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# OpenDJ Server
+Vagrant.configure(2) do |config|
+  config.vm.box = "esamson/centos-7-jdk-7"
+  config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/centos-7-jdk-7-v1/package.box"
+
+
+  config.vm.provider "virtualbox" do |vbox|
+      vbox.name = "opendj-2.6.0"
+  end
+
+  # Install OpenDJ 2.6.0
+  config.vm.provision "shell", inline: <<-SHELL
+      yum install -y unzip
+      mkdir -p /opt
+      unzip /vagrant/.deps/OpenDJ-2.6.0.zip -d /opt
+  SHELL
+
+  config.vm.provision "file",
+      source: "../../free-up-disk.sh",
+      destination: "free-up-disk.sh"
+
+end
