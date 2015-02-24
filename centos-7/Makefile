@@ -1,5 +1,5 @@
 all: clean provision package.box
-	@echo base box built
+	@echo centos-7 box built
 
 clean:
 	rm -f *.box
@@ -10,7 +10,8 @@ provision:
 	vagrant up
 	vagrant halt
 	vagrant up
-	vagrant ssh -c /vagrant/free-up-disk.sh
+	vagrant ssh -c ./free-up-disk.sh
+	vagrant ssh -c "rm free-up-disk.sh"
 	vagrant halt
 
 package.box:
