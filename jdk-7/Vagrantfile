@@ -5,7 +5,7 @@
 Vagrant.configure(2) do |config|
   # Builds off of centos-7 box
   config.vm.box = "esamson/centos-7"
-  config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/centos-7-v1/package.box"
+  config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/centos-7-v2/package.box"
 
   config.vm.provider "virtualbox" do |vbox|
       vbox.name = "centos-7-jdk-7"
@@ -19,7 +19,7 @@ Vagrant.configure(2) do |config|
   SHELL
 
   config.vm.provision "file",
-      source: "../free-up-disk.sh",
+      source: "../scripts/free-up-disk.sh",
       destination: "free-up-disk.sh"
 
 end
