@@ -15,7 +15,10 @@ clean-deps:
 	rm -rf .deps
 
 .deps/jdk-7.tar.gz: .deps
+ifeq ("$(wildcard .deps/jdk-7.tar.gz)", "")
+	$(info Downloading JDK 7)
 	wget -O .deps/jdk-7.tar.gz --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.tar.gz
+endif
 
 .deps:
 	@echo Creating .deps/ dir
@@ -28,5 +31,5 @@ provision:
 	vagrant halt
 
 package.box:
-	vagrant package --base centos-7-jdk-7
+	vagrant package --base jdk-7
 

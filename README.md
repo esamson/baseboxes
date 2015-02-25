@@ -12,10 +12,11 @@ boxes you can use in your Vagrantfile.
 
     Vagrant.configure(2) do |config|
       config.vm.box = "esamson/centos-7"
-      config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/centos-7-v2/package.box"
+      config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/centos-7-v3/package.box"
     end
 
-Released boxes have the latest yum updates as of the release date.
+Released boxes have the latest yum updates as of the **centos-7** box release
+date.
 
 [1]: https://github.com/esamson/baseboxes/releases
 

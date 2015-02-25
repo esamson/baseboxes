@@ -5,13 +5,13 @@ centos-7/package.box:
 	$(MAKE) -C centos-7
 
 jdk-7: jdk-7/package.box
-	vagrant box add --force --name esamson/centos-7-jdk-7 jdk-7/package.box
+	vagrant box add --force --name esamson/jdk-7 jdk-7/package.box
 
 jdk-7/package.box: centos-7
 	$(MAKE) -C jdk-7
 
 jdk-8: jdk-8/package.box
-	vagrant box add --force --name esamson/centos-7-jdk-8 jdk-8/package.box
+	vagrant box add --force --name esamson/jdk-8 jdk-8/package.box
 
 jdk-8/package.box: centos-7
 	$(MAKE) -C jdk-8
