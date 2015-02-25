@@ -1,0 +1,25 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# HSQLDB Server
+Vagrant.configure(2) do |config|
+  config.vm.box = "esamson/jdk-8"
+  config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/jdk-8-v3/package.box"
+
+
+  config.vm.provider "virtualbox" do |vbox|
+      vbox.name = "hsqldb"
+  end
+
+  # Install HSQLDB 2.3.2
+  config.vm.provision "shell", inline: <<-SHELL
+      yum install -y unzip
+      mkdir -p /opt
+      unzip /vagrant/.deps/hsqldb-2.3.2.zip -d /opt
+  SHELL
+
+  config.vm.provision "file",
+      source: "../scripts/free-up-disk.sh",
+      destination: "free-up-disk.sh"
+
+end
