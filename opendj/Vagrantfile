@@ -4,7 +4,7 @@
 # OpenDJ Server
 Vagrant.configure(2) do |config|
   config.vm.box = "esamson/jdk-7"
-  config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/jdk-7-v3/package.box"
+  config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/v3-jdk-7/package.box"
 
 
   config.vm.provider "virtualbox" do |vbox|
