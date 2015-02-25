@@ -1,4 +1,4 @@
-# OpenDJ 2.6.0 Base Box
+# OpenDJ Base Box
 
 This base box has OpenDJ 2.6.0 on JDK 7 on CentOS 7.
 
@@ -11,8 +11,8 @@ details.
 
     # Vagrantfile
     Vagrant.configure(2) do |config|
-      config.vm.box = "esamson/opendj-2.6.0"
-      config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/opendj-2.6.0-v1/package.box"
+      config.vm.box = "esamson/opendj"
+      config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/opendj-v3/package.box"
 
       # Set up OpenDJ 2.6.0
       config.vm.provision "shell", inline: <<-SHELL

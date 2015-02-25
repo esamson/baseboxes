@@ -3,12 +3,12 @@
 
 # OpenDJ Server
 Vagrant.configure(2) do |config|
-  config.vm.box = "esamson/centos-7-jdk-7"
-  config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/centos-7-jdk-7-v2/package.box"
+  config.vm.box = "esamson/jdk-7"
+  config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/jdk-7-v3/package.box"
 
 
   config.vm.provider "virtualbox" do |vbox|
-      vbox.name = "opendj-2.6.0"
+      vbox.name = "opendj"
   end
 
   # Install OpenDJ 2.6.0

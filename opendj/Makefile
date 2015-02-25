@@ -27,5 +27,5 @@ provision:
 	vagrant halt
 
 package.box:
-	vagrant package --base opendj-2.6.0
+	vagrant package --base opendj
 
