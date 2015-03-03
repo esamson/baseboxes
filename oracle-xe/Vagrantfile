@@ -1,0 +1,35 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Oracle XE
+Vagrant.configure(2) do |config|
+  # Builds off of centos-7 box
+  config.vm.box = "esamson/centos-7"
+  config.vm.box_url = "https://github.com/esamson/baseboxes/releases/download/v3-centos-7/package.box"
+
+  config.vm.provider "virtualbox" do |vbox|
+      vbox.name = "oracle-xe"
+  end
+
+  # Install Oracle XE
+  config.vm.provision "shell", inline: <<-SHELL
+    sh /vagrant/resize-swap.sh
+
+    yum install -y bc
+    yum localinstall -y /vagrant/.deps/Disk1/oracle-xe-11.2.0-1.0.x86_64.rpm
+    
+    service oracle-xe configure responseFile=/vagrant/xe.rsp >> /var/log/OracleXEinstall.log
+
+    firewall-cmd --permanent --zone=public --add-port=1521/tcp
+    firewall-cmd --reload
+  SHELL
+
+  config.vm.provision "file",
+      source: "../scripts/free-up-disk.sh",
+      destination: "free-up-disk.sh"
+
+  config.vm.network "forwarded_port", guest: 1521, host: 1521
+
+  config.vm.graceful_halt_timeout = 3600
+
+end
