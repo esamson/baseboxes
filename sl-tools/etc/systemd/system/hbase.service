@@ -1,0 +1,15 @@
+[Unit]
+Description=HBase Hadoop database
+After=network.target
+
+[Service]
+Type=forking
+Environment=JAVA_HOME=/opt/jdk-7
+ExecStart=/opt/hbase/bin/start-hbase.sh
+ExecStop=/opt/hbase/bin/stop-hbase.sh
+User=hbase
+Group=hbase
+
+[Install]
+WantedBy=multi-user.target
+

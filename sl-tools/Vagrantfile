@@ -1,0 +1,80 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+# Tools for local SL dev environment
+Vagrant.configure(2) do |config|
+  # Builds off of jdk-7 box
+  config.vm.box = "esamson/jdk-7"
+
+  config.vm.provider "virtualbox" do |vbox|
+      vbox.name = "sl-tools"
+  end
+
+  config.vm.provision "mysql", type: "shell", inline: <<-SHELL
+    yum install -y mariadb-server
+    systemctl start mariadb.service
+
+    mysql -u root -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%'"
+    systemctl stop mariadb.service
+  SHELL
+
+  config.vm.provision "redis", type: "shell", inline: <<-SHELL
+    yum install -y epel-release
+    yum install -y redis
+  SHELL
+
+  config.vm.provision "hbase", type: "shell", inline: <<-SHELL
+    echo Installing HBase
+    mkdir -p /opt/hbase
+    tar -x -f /vagrant/.deps/hbase.tar.gz -C /opt/hbase --strip-components=1
+
+    groupadd -r hbase
+    useradd -g hbase -r hbase
+    mkdir /opt/hbase/logs /var/lib/hbase
+    chown hbase:hbase /opt/hbase/logs /var/lib/hbase
+
+    cp /vagrant/etc/systemd/system/hbase.service /etc/systemd/system/hbase.service
+    cp /vagrant/opt/hbase/conf/hbase-site.xml /opt/hbase/conf/hbase-site.xml
+
+    systemctl disable firewalld
+
+    echo Building native libhadoop
+    mkdir -p /tmp/maven
+    tar -x -f /vagrant/.deps/maven.tar.gz -C /tmp/maven --strip-components=1
+    mkdir -p /tmp/hadoop-src
+    tar -x -f /vagrant/.deps/hadoop-src.tar.gz -C /tmp/hadoop-src --strip-components=1
+
+    yum install -y gcc-c++ cmake protobuf-compiler zlib-devel snappy-devel openssl-devel
+
+    cd /tmp/hadoop-src
+    export MAVEN_OPTS="-Xms256m -Xmx512m"
+    mkdir -p /vagrant/.deps/m2repo
+    ln -s /vagrant/.deps/m2repo ~/.m2
+
+    /tmp/maven/bin/mvn package -Drequire.snappy -Pdist,native -DskipTests -Dtar -Dmaven.javadoc.skip
+    mkdir -p /opt/hbase/lib/native/Linux-amd64-64
+    cp /tmp/hadoop-src/hadoop-dist/target/hadoop-2.6.0/lib/native/* /opt/hbase/lib/native/Linux-amd64-64
+
+    rm -rf /tmp/maven
+    rm -rf /tmp/hadoop-src
+    rm ~/.m2
+  SHELL
+
+  config.vm.provision "kafka", type: "shell", inline: <<-SHELL
+    echo Installing Kafka
+    mkdir -p /opt/kafka
+    tar -x -f /vagrant/.deps/kafka.tgz -C /opt/kafka --strip-components=1
+
+    groupadd -r kafka
+    useradd -g kafka -r kafka
+    mkdir /opt/kafka/logs
+    chown kafka:kafka /opt/kafka/logs
+
+    cp /vagrant/etc/systemd/system/kafka.service /etc/systemd/system/kafka.service
+  SHELL
+
+  config.vm.provision "file",
+      source: "../scripts/free-up-disk.sh",
+      destination: "free-up-disk.sh"
+
+end
