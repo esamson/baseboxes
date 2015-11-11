@@ -17,7 +17,7 @@ clean-deps:
 .deps/jdk-7.tar.gz: .deps
 ifeq ("$(wildcard .deps/jdk-7.tar.gz)", "")
 	$(info Downloading JDK 7)
-	wget -O .deps/jdk-7.tar.gz --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u75-b13/jdk-7u75-linux-x64.tar.gz
+	wget -O .deps/jdk-7.tar.gz --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u80-b15/jdk-7u80-linux-x64.tar.gz
 endif
 
 .deps:
