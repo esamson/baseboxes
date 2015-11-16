@@ -24,28 +24,31 @@ sl-tools: sl-tools/package.box
 sl-tools/package.box: jdk-7/.vagrant/add
 	$(MAKE) -C sl-tools
 
-jdk-8: jdk-8/package.box
-	vagrant box add --force --name esamson/jdk-8 jdk-8/package.box
+jdk-8: jdk-8/.vagrant/add
 
-jdk-8/package.box: centos-7
+jdk-8/.vagrant/add: jdk-8/package.box
+	vagrant box add --force --name esamson/jdk-8 jdk-8/package.box
+	touch jdk-8/.vagrant/add
+
+jdk-8/package.box: centos-7/.vagrant/add
 	$(MAKE) -C jdk-8
 
 opendj: opendj/package.box
 	vagrant box add --force --name esamson/opendj opendj/package.box
 
-opendj/package.box: jdk-7
+opendj/package.box: jdk-7/.vagrant/add
 	$(MAKE) -C opendj
 
 hsqldb: hsqldb/package.box
 	vagrant box add --force --name esamson/hsqldb hsqldb/package.box
 
-hsqldb/package.box: jdk-8
+hsqldb/package.box: jdk-8/.vagrant/add
 	$(MAKE) -C hsqldb
 
 oracle-xe: oracle-xe/package.box
 	vagrant box add --force --name esamson/oracle-xe oracle-xe/package.box
 
-oracle-xe/package.box: centos-7
+oracle-xe/package.box: centos-7/.vagrant/add
 	$(MAKE) -C oracle-xe
 
 clean:
